@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "MusicController", urlPatterns = "/musics/*")
 public class MusicController extends HttpServlet {
@@ -22,6 +23,14 @@ public class MusicController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getPathInfo();
+        if (url == null || url.equals("/")) {
+            try {
+                this.musicService.renderListMusics(req, resp);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
 
     }
 }
